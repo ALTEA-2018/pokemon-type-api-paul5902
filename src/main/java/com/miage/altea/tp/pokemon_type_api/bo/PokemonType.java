@@ -13,6 +13,7 @@ public class PokemonType {
     private int weight;
     private List<String> types;
 
+
     public int getId() {
         return id;
     }

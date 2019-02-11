@@ -3,7 +3,6 @@ package com.miage.altea.tp.pokemon_type_api.controller;
 import com.miage.altea.tp.pokemon_type_api.bo.PokemonType;
 import com.miage.altea.tp.pokemon_type_api.service.PokemonTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,18 +11,19 @@ import java.util.List;
 @RequestMapping("/pokemon-types")
 class PokemonTypeController {
 
-    private PokemonTypeService pokemonTypeService;
+    @Autowired
+    public PokemonTypeService pokemonTypeService;
 
-    public PokemonTypeController(@Autowired PokemonTypeService service) {
-        this.pokemonTypeService = service;
+    public PokemonTypeController(PokemonTypeService pokemonTypeService) {
+        this.pokemonTypeService=pokemonTypeService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}")
     PokemonType getPokemonTypeFromId(@PathVariable int id){
         return pokemonTypeService.getPokemonType(id);
     }
 
-    @GetMapping("/")
+    @GetMapping(value = "/")
     public List<PokemonType> getAllPokemonTypes() {
         return pokemonTypeService.getAllPokemonTypes();
     }
@@ -35,7 +35,8 @@ class PokemonTypeController {
 
     @GetMapping(value = "/", params = "types")
     public List<PokemonType> getPokemonTypeByTypes(@RequestParam(value = "types") List<String> types) {
-        return pokemonTypeService.getPokemonTypeByType(types);
+        return pokemonTypeService.getPokemonTypesByTypes(types);
     }
+
 
 }

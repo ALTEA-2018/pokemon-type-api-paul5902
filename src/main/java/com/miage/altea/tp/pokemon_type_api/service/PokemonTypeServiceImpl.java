@@ -13,30 +13,23 @@ public class PokemonTypeServiceImpl implements PokemonTypeService{
     @Autowired
     public PokemonTypeRepository pokemonTypeRepository;
 
-
-    public PokemonTypeServiceImpl(PokemonTypeRepository repo){ // TODO
-        this.pokemonTypeRepository = repo;
+    public PokemonTypeServiceImpl(PokemonTypeRepository pokemonTypeRepository){
+        this.pokemonTypeRepository=pokemonTypeRepository;
     }
 
     @Override
     public PokemonType getPokemonType(int id) {
-        return this.pokemonTypeRepository.findPokemonTypeById(id);
-    }
-
-    @Override
-    public PokemonType getPokemonTypeByName(String name) {
-        return this.pokemonTypeRepository.findPokemonTypeByName(name);
-    }
-
-    @Override
-    public List<PokemonType> getPokemonTypeByType(List<String> types) {
-        return this.pokemonTypeRepository.findPokemonTypeByType(types);
+        return pokemonTypeRepository.findPokemonTypeById(id);
     }
 
     @Override
     public List<PokemonType> getAllPokemonTypes(){
-        return this.pokemonTypeRepository.findAllPokemonType();
+        return pokemonTypeRepository.findAllPokemonType();
     }
 
+    @Override
+    public PokemonType getPokemonTypeByName(String name) {return pokemonTypeRepository.findPokemonTypeByName(name);}
 
+    @Override
+    public List<PokemonType> getPokemonTypesByTypes(List<String> types) { return pokemonTypeRepository.findPokemonTypeByTypes(types);}
 }
