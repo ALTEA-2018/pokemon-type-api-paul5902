@@ -20,13 +20,14 @@ public class PokemonTypeServiceImpl implements PokemonTypeService{
     @Autowired
     private TranslationRepository translationRepository;
 
-    public PokemonTypeServiceImpl(PokemonTypeRepository pokemonTypeRepository){
-        this.pokemonTypeRepository=pokemonTypeRepository;
+    public PokemonTypeServiceImpl(){
     }
 
     @Override
     public PokemonType getPokemonType(int id) {
-        return pokemonTypeRepository.findPokemonTypeById(id);
+        PokemonType pk = pokemonTypeRepository.findPokemonTypeById(id);
+        pk.setName(this.translationRepository.getPokemonName(id, LocaleContextHolder.getLocale()));
+        return pk;
     }
 
     @Override
@@ -44,4 +45,14 @@ public class PokemonTypeServiceImpl implements PokemonTypeService{
 
     @Override
     public List<PokemonType> getPokemonTypesByTypes(List<String> types) { return pokemonTypeRepository.findPokemonTypeByTypes(types);}
+
+    @Override
+    public void setTranslationRepository(TranslationRepository translationRepository) {
+        this.translationRepository = translationRepository;
+    }
+
+    @Override
+    public void setPokemonTypeRepository(PokemonTypeRepository pokemonTypeRepository) {
+        this.pokemonTypeRepository = pokemonTypeRepository;
+    }
 }
