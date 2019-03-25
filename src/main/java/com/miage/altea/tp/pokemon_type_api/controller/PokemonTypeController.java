@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/pokemon-types")
@@ -24,8 +25,8 @@ class PokemonTypeController {
     }
 
     @GetMapping(value = "/")
-    public List<PokemonType> getAllPokemonTypes() {
-        return pokemonTypeService.getAllPokemonTypes();
+    public List<PokemonType> getAllPokemonTypes(@RequestParam(value = "locale", required = false) Locale locale) {
+        return pokemonTypeService.getAllPokemonTypes(locale);
     }
 
     @GetMapping(value = "/", params = "name")
