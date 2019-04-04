@@ -3,6 +3,11 @@ package com.miage.altea.tp.pokemon_type_api.controller;
 import com.miage.altea.tp.pokemon_type_api.bo.PokemonType;
 import com.miage.altea.tp.pokemon_type_api.service.PokemonTypeService;
 import org.junit.jupiter.api.Test;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -30,9 +35,40 @@ class PokemonTypeControllerTest {
         var service = mock(PokemonTypeService.class);
         var controller = new PokemonTypeController(service);
 
-        controller.getAllPokemonTypes();
+        controller.getAllPokemonTypes(null);
 
-        verify(service).getAllPokemonTypes();
+        verify(service).getAllPokemonTypes(null);
+    }
+
+    @Test
+    void pokemonTypeController_shouldBeAnnotated(){
+        var controllerAnnotation =
+                PokemonTypeController.class.getAnnotation(RestController.class);
+        assertNotNull(controllerAnnotation);
+
+        var requestMappingAnnotation =
+                PokemonTypeController.class.getAnnotation(RequestMapping.class);
+        assertArrayEquals(new String[]{"/pokemon-types"}, requestMappingAnnotation.value());
+    }
+
+    @Test
+    void getPokemonTypeFromId_shouldBeAnnotated() throws NoSuchMethodException {
+        var getPokemonTypeFromId =
+                PokemonTypeController.class.getDeclaredMethod("getPokemonTypeFromId", int.class);
+        var getMapping = getPokemonTypeFromId.getAnnotation(GetMapping.class);
+
+        assertNotNull(getMapping);
+        assertArrayEquals(new String[]{"/{id}"}, getMapping.value());
+    }
+
+    @Test
+    void getAllPokemonTypes_shouldBeAnnotated() throws NoSuchMethodException {
+        var getAllPokemonTypes =
+                PokemonTypeController.class.getDeclaredMethod("getAllPokemonTypes", Locale.class);
+        var getMapping = getAllPokemonTypes.getAnnotation(GetMapping.class);
+
+        assertNotNull(getMapping);
+        assertArrayEquals(new String[]{"/"}, getMapping.value());
     }
 
 }
